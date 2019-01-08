@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            game = new Game();
+        game = new Game();
     }
 
     @Override
@@ -32,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < gameMessage.length; i++) {
             outState.putInt(gameMessage[i], gameMessageIm[i].getVisibility());
         }
-        outState.putSerializable("mainboard", mainboard);
-
+        outState.putSerializable("mainboard", game.returnboard());
     }
 
     @Override
@@ -132,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 gameMessageIm[2].setVisibility(View.VISIBLE);
                 break;
         }
-        mainboard = game.returnboard();
-        System.out.println(Arrays.deepToString(mainboard));
     }
 
     public void resetClicked(View view) {
