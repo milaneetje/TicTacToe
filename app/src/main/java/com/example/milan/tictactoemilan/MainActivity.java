@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     Game game;
     TextView[] gameMessageIm = new TextView[3];
-    String[] gameMessage = {"playerone", "playertwo", "draw", "invalid"};
+    String[] gameMessage = {"playerone", "playertwo", "draw"};
     TileState[][] mainboard;
 
     @Override
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < gameMessage.length; i++) {
             outState.putInt(gameMessage[i], gameMessageIm[i].getVisibility());
         }
+        outState.putSerializable("mainboard", mainboard);
 
     }
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < gameMessage.length; i++) {
             gameMessageIm[i].setVisibility(savedInstanceState.getInt(gameMessage[i]));
         }
+        mainboard = (TileState[][]) savedInstanceState.getSerializable("mainboard");
     }
 
     public void initGameMessage() {
