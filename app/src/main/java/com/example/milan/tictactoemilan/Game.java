@@ -33,8 +33,11 @@ public class Game implements Serializable {
     }
 
     public void setBoard(TileState[][] gameboard) {
-        this.board = gameboard;
-        System.out.println("Board in class game is: " + Arrays.deepToString(board));
+        for (int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board.length; j++) {
+                this.board[i][j] = gameboard[i][j];
+            }
+        }
     }
 
     public TileState choose(int row, int column) {

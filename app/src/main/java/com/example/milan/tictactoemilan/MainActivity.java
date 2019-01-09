@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
         for (int j = 0; j < buttonName.length; j++) {
             outState.putCharSequence(buttonName[j], button[j].getText());
         }
-//        outState.putSerializable("mainboard", game.returnboard());
-//        System.out.println("Board is: " + Arrays.deepToString(game.returnboard()));
+        outState.putSerializable("mainboard", game.returnboard());
     }
 
     @Override
@@ -55,13 +54,11 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < gameMessage.length; i++) {
             gameMessageIm[i].setVisibility(savedInstanceState.getInt(gameMessage[i]));
         }
-        System.out.println("Hier zijn we nu");
         for (int j =0; j < buttonName.length; j++){
             button[j].setText(savedInstanceState.getCharSequence(buttonName[j]));
         }
-//        mainboard = (TileState[][]) savedInstanceState.getSerializable("mainboard");
-//        System.out.println("Board is: " + Arrays.deepToString(mainboard));
-//        game.setBoard(mainboard);
+        mainboard = (TileState[][]) savedInstanceState.getSerializable("mainboard");
+        game.setBoard(mainboard);
     }
 
     public void initGameMessage() {
@@ -87,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         int row = 0;
         int column = 0;
         int buttonNumber = 0;
+
+        GameState won = game.won();
 
         switch(view.getId()) {
             case R.id.button2:
@@ -165,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        GameState won = game.won();
+        won = game.won();
 
         switch(won) {
             case PLAYER_ONE:
