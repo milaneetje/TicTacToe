@@ -11,9 +11,15 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 
+import static com.example.milan.tictactoemilan.TileState.CIRCLE;
+import static com.example.milan.tictactoemilan.TileState.CROSS;
+
 public class MainActivity extends AppCompatActivity {
 
     Game game;
+    Button[] button = new Button[9];
+    String[] buttonName = {"button2", "button3", "button4", "button5", "button6", "button7",
+            "button8", "button9", "button10"};
     TextView[] gameMessageIm = new TextView[3];
     String[] gameMessage = {"playerone", "playertwo", "draw"};
     TileState[][] mainboard;
@@ -23,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initButton();
+        initGameMessage();
+
         game = new Game();
+
     }
 
     @Override
@@ -32,17 +42,26 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < gameMessage.length; i++) {
             outState.putInt(gameMessage[i], gameMessageIm[i].getVisibility());
         }
-        outState.putSerializable("mainboard", game.returnboard());
+        for (int j = 0; j < buttonName.length; j++) {
+            outState.putCharSequence(buttonName[j], button[j].getText());
+        }
+//        outState.putSerializable("mainboard", game.returnboard());
+//        System.out.println("Board is: " + Arrays.deepToString(game.returnboard()));
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        initGameMessage();
         for(int i = 0; i < gameMessage.length; i++) {
             gameMessageIm[i].setVisibility(savedInstanceState.getInt(gameMessage[i]));
         }
-        mainboard = (TileState[][]) savedInstanceState.getSerializable("mainboard");
+        System.out.println("Hier zijn we nu");
+        for (int j =0; j < buttonName.length; j++){
+            button[j].setText(savedInstanceState.getCharSequence(buttonName[j]));
+        }
+//        mainboard = (TileState[][]) savedInstanceState.getSerializable("mainboard");
+//        System.out.println("Board is: " + Arrays.deepToString(mainboard));
+//        game.setBoard(mainboard);
     }
 
     public void initGameMessage() {
@@ -51,70 +70,98 @@ public class MainActivity extends AppCompatActivity {
         gameMessageIm[2] = findViewById(R.id.draw);
     }
 
+    public void initButton() {
+        button[0] = findViewById(R.id.button2);
+        button[1] = findViewById(R.id.button3);
+        button[2] = findViewById(R.id.button4);
+        button[3] = findViewById(R.id.button5);
+        button[4] = findViewById(R.id.button6);
+        button[5] = findViewById(R.id.button7);
+        button[6] = findViewById(R.id.button8);
+        button[7] = findViewById(R.id.button9);
+        button[8] = findViewById(R.id.button10);
+    }
+
     public void tileClicked(View view) {
 
-        initGameMessage();
-
-        int id = view.getId();
         int row = 0;
         int column = 0;
-        Button button = findViewById(R.id.button2);
+        int buttonNumber = 0;
 
-        switch(id) {
-            case 2131165222:
+        switch(view.getId()) {
+            case R.id.button2:
                 row = 0;
                 column = 0;
-                button = findViewById(R.id.button2);
+                button[0]= findViewById(R.id.button2);
+                buttonNumber = 0;
                 break;
-            case 2131165223:
+
+            case R.id.button3:
                 row = 0;
                 column = 1;
-                button = findViewById(R.id.button3);
+                button[1] = findViewById(R.id.button3);
+                buttonNumber = 1;
                 break;
-            case 2131165224:
+
+            case R.id.button4:
                 row = 0;
                 column = 2;
-                button = findViewById(R.id.button4);
+                button[2] = findViewById(R.id.button4);
+                buttonNumber = 2;
                 break;
-            case 2131165225:
+
+            case R.id.button5:
                 row = 1;
                 column = 0;
-                button = findViewById(R.id.button5);
+                button[3] = findViewById(R.id.button5);
+                buttonNumber = 3;
                 break;
-            case 2131165226:
+
+            case R.id.button6:
                 row = 1;
                 column = 1;
-                button = findViewById(R.id.button6);
+                button[4] = findViewById(R.id.button6);
+                buttonNumber = 4;
                 break;
-            case 2131165227:
+
+            case R.id.button7:
                 row = 1;
                 column = 2;
-                button = findViewById(R.id.button7);
+                button[5] = findViewById(R.id.button7);
+                buttonNumber = 5;
                 break;
-            case 2131165228:
+
+            case R.id.button8:
                 row = 2;
                 column = 0;
-                button = findViewById(R.id.button8);
+                button[6] = findViewById(R.id.button8);
+                buttonNumber = 6;
                 break;
-            case 2131165229:
+
+            case R.id.button9:
                 row = 2;
                 column = 1;
-                button = findViewById(R.id.button9);
+                button[7] = findViewById(R.id.button9);
+                buttonNumber = 7;
                 break;
-            case 2131165221:
+
+            case R.id.button10:
                 row = 2;
                 column = 2;
-                button = findViewById(R.id.button10);
+                button[8] = findViewById(R.id.button10);
+                buttonNumber = 8;
                 break;
+
         }
+
         TileState state = game.choose(row, column);
 
         switch(state) {
             case CROSS:
-                button.setText("X");
+                button[buttonNumber].setText("X");
                 break;
             case CIRCLE:
-                button.setText("O");
+                button[buttonNumber].setText("O");
                 break;
         }
 

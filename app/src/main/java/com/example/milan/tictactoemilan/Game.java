@@ -32,38 +32,47 @@ public class Game implements Serializable {
         return board;
     }
 
+    public void setBoard(TileState[][] gameboard) {
+        this.board = gameboard;
+        System.out.println("Board in class game is: " + Arrays.deepToString(board));
+    }
+
     public TileState choose(int row, int column) {
 
         TileState Tstate = board[row][column];
+        if (!gameOver) {
+            if (playerOneTurn) {
+                switch (Tstate) {
+                    case BLANK:
+                        board[row][column] = TileState.CROSS;
+                        movesPlayed += 1;
+                        playerOneTurn = false;
+                        break;
+                    case CROSS:
+                        break;
+                    case CIRCLE:
+                        break;
+                }
+            } else {
+                switch (Tstate) {
+                    case BLANK:
+                        board[row][column] = TileState.CIRCLE;
+                        movesPlayed += 1;
+                        playerOneTurn = true;
+                        break;
+                    case CROSS:
+                        break;
+                    case CIRCLE:
+                        break;
+                }
+            }
+            Tstate = board[row][column];
 
-        if (playerOneTurn) {
-            switch (Tstate) {
-                case BLANK:
-                    board[row][column] = TileState.CROSS;
-                    movesPlayed += 1;
-                    playerOneTurn = false;
-                    break;
-                case CROSS:
-                    break;
-                case CIRCLE:
-                    break;
-            }
-        } else {
-            switch (Tstate) {
-                case BLANK:
-                    board[row][column] = TileState.CIRCLE;
-                    movesPlayed += 1;
-                    playerOneTurn = true;
-                    break;
-                case CROSS:
-                    break;
-                case CIRCLE:
-                    break;
-            }
+            return Tstate;
         }
-        Tstate = board[row][column];
-
-        return Tstate;
+        else {
+            return Tstate;
+        }
     }
 
     public GameState won() {
@@ -118,12 +127,6 @@ public class Game implements Serializable {
             } else if (movesPlayed == (BOARD_SIZE * BOARD_SIZE)) {
                 Gstate = GameState.DRAW;
                 gameOver = true;
-            }
-
-            if (gameOver) {
-                for (int k = 0; k < BOARD_SIZE; k++)
-                    for ( int l = 0; l < BOARD_SIZE; l++)
-                        board[k][l] = TileState.INVALID;
             }
         }
 
