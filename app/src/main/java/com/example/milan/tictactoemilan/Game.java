@@ -118,21 +118,31 @@ public class Game implements Serializable {
             }
         }
 
-        for (int m = 0; m < scoreX.length; m++) {
-            if (scoreX[m] == BOARD_SIZE) {
-                Gstate = GameState.PLAYER_ONE;
-                gameOver = true;
+        if (movesPlayed != (BOARD_SIZE * BOARD_SIZE)) {
+            for (int m = 0; m < scoreX.length; m++) {
+                if (scoreX[m] == BOARD_SIZE) {
+                    Gstate = GameState.PLAYER_ONE;
+                    gameOver = true;
 
-            } else if (scoreO[m] == BOARD_SIZE) {
-                Gstate = GameState.PLAYER_TWO;
-                gameOver = true;
+                } else if (scoreO[m] == BOARD_SIZE) {
+                    Gstate = GameState.PLAYER_TWO;
+                    gameOver = true;
 
-            } else if (movesPlayed == (BOARD_SIZE * BOARD_SIZE)) {
-                Gstate = GameState.DRAW;
-                gameOver = true;
+                }
             }
         }
 
+        else if (movesPlayed == (BOARD_SIZE * BOARD_SIZE)) {
+            for (int m = 0; m<scoreX.length; m++){
+                if (scoreX[m] == BOARD_SIZE) {
+                    Gstate = GameState.PLAYER_ONE;
+                    gameOver = true;
+                    return Gstate;
+                }
+            }
+            Gstate = GameState.DRAW;
+            gameOver = true;
+        }
         return Gstate;
     }
 }
